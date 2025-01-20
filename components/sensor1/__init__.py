@@ -1,4 +1,4 @@
-""" Creates module ComfoAir """
+""" Creates module sensor1 """
 
 import esphome.codegen as cg
 import esphome.config_validation as cv
@@ -10,13 +10,13 @@ from esphome.const import (CONF_ID, CONF_UART_ID, DEVICE_CLASS_CURRENT,
                            UNIT_CUBIC_METER, UNIT_HOUR, UNIT_MINUTE,
                            UNIT_PERCENT, UNIT_REVOLUTIONS_PER_MINUTE)
 
-comfoair_ns = cg.esphome_ns.namespace("comfoair")
-ComfoAirComponent = comfoair_ns.class_("ComfoAirComponent", cg.Component)
+sensor1_ns = cg.esphome_ns.namespace("sensor1")
+sensor1Component = sensor1_ns.class_("sensor1Component", cg.Component)
 
 DEPENDENCIES = ["uart"]
 AUTO_LOAD = ["sensor", "climate", "binary_sensor", "text_sensor"]
 REQUIRED_KEY_NAME = "name"
-CONF_HUB_ID = "comfoair"
+CONF_HUB_ID = "sensor1"
 
 UNIT_WEEK = "weeks"
 
@@ -98,7 +98,7 @@ CONF_RF_HIGH_TIME_SHORT_MINUTES = "rf_high_time_short_minutes"
 CONF_RF_HIGH_TIME_LONG_MINUTES = "rf_high_time_long_minutes"
 CONF_EXTRACTOR_HOOD_SWITCH_OFF_DELAY_MINUTES = "extractor_hood_switch_off_delay_minutes"
 
-helper_comfoair = {
+helper_sensor1 = {
     "sensor": [
         CONF_INTAKE_FAN_SPEED,
         CONF_EXHAUST_FAN_SPEED,
@@ -183,7 +183,7 @@ helper_comfoair = {
     ],
 }
 
-comfoair_sensors_schemas = cv.Schema(
+sensor1_sensors_schemas = cv.Schema(
     {
         cv.Optional(CONF_TYPE): text_sensor.text_sensor_schema(),
         cv.Optional(CONF_SIZE): text_sensor.text_sensor_schema(),
@@ -515,12 +515,12 @@ comfoair_sensors_schemas = cv.Schema(
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
-            cv.GenerateID(CONF_ID): cv.declare_id(ComfoAirComponent),
+            cv.GenerateID(CONF_ID): cv.declare_id(sensor1Component),
             cv.Required(REQUIRED_KEY_NAME): cv.string,
         }
     )
     .extend(uart.UART_DEVICE_SCHEMA)
-    .extend(comfoair_sensors_schemas)
+    .extend(sensor1_sensors_schemas)
     .extend(cv.COMPONENT_SCHEMA)
 )
 
@@ -533,7 +533,7 @@ def to_code(config):
     cg.add(var.set_name(config[REQUIRED_KEY_NAME]))
     paren = yield cg.get_variable(config[CONF_UART_ID])
     cg.add(var.set_uart_component(paren))
-    for k, values in helper_comfoair.items():
+    for k, values in helper_sensor1.items():
         for v in values:
             if not v in config:
                 continue
