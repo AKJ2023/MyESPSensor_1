@@ -2,7 +2,7 @@
 
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/core/component.h"
-#include "dht11/dht11.h"
+#include "dht11.h"
 
 static const uint8_t D0 = 3;
 static const uint8_t D1 = 1;
