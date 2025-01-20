@@ -7,14 +7,14 @@ namespace esphome
     {
         void EmptySensor::setup()
         {
-            ESP_LOGV(MYTAG, "Hello World");
+            ESP_LOGI(MYTAG, "Hello World");
         }
 
         void EmptySensor::loop() {}
 
         void EmptySensor::update()
         {
-            ESP_LOGV(MYTAG, "Updating");
+            ESP_LOGI(MYTAG, "Updating");
 
             int chk = my_dht_sensor.read(DHT11PIN);
             publish_state(my_dht_sensor.temperature);

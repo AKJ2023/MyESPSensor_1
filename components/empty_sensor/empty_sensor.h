@@ -19,6 +19,9 @@ namespace esphome
       void loop() override;
       void update() override;
       void dump_config() override;
+      EmptySensor() : PollingComponent(1000) {
+        ESP_LOGI(MYTAG, "Hello World FROM CONSTRUCTOR");
+      }
 
     private:
       dht11 my_dht_sensor;
