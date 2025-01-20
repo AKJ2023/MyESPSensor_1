@@ -11,7 +11,7 @@ namespace esphome
 {
   namespace empty_sensor
   {
-    static const char *TAG = "empty_sensor";
+    static const char *MYTAG = "empty_sensor";
 
     class EmptySensor : public sensor::Sensor, public PollingComponent
     {
