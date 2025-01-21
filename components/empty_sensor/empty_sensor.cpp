@@ -10,14 +10,18 @@ namespace esphome
             ESP_LOGI(MYTAG, "Hello World");
         }
 
-        void EmptySensor::loop() {}
+        void EmptySensor::loop() {
+            ESP_LOGI(MYTAG, "Looping");
+            String line = readString();
+            int i = parseInt();
+            while (available()) {
+            char c = read();
+            }
+        }
 
         void EmptySensor::update()
         {
             ESP_LOGI(MYTAG, "Updating");
-
-            int chk = my_dht_sensor.read(DHT11PIN);
-            publish_state(my_dht_sensor.temperature);
         }
 
         void EmptySensor::dump_config() { ESP_LOGCONFIG(MYTAG, "Empty custom sensor"); }

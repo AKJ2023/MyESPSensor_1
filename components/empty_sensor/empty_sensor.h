@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esphome/components/sensor/sensor.h"
+#include "esphome/components/uart/uart.h"
 #include "esphome/core/component.h"
 #include "dht11.h"
 #include "Arduino.h"
@@ -13,16 +14,14 @@ namespace esphome
   {
     static const char *MYTAG = "empty_sensor";
 
-    class EmptySensor : public sensor::Sensor, public PollingComponent
+    class EmptySensor : public sensor::Sensor, public Component, public uart::UARTDevice
     {
       void setup() override;
       void loop() override;
       void update() override;
       void dump_config() override;
       public:
-      EmptySensor() : PollingComponent(1000) {
-        ESP_LOGI(MYTAG, "Hello World FROM CONSTRUCTOR");
-      }
+      EmptySensor(UARTComponent *parent) : UARTDevice(parent) {}
 
     private:
       dht11 my_dht_sensor;
