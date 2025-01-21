@@ -229,7 +229,7 @@ protected:
 
   void write_command_(const uint8_t command, const uint8_t *command_data, uint8_t command_data_length) {
     ESP_LOGD(TAG, "[write_command_] cmd_len:%d.", command_data_length);
-    for (int i=0;i<comand_data_length;i++){
+    for (int i=0;i<command_data_length;i++){
         ESP_LOGD(TAG, "write_command_] %i:%x.", i, command_data[i]);
     }
     write_byte(COMMAND_PREFIX);
