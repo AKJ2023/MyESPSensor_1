@@ -322,6 +322,8 @@ protected:
     status_clear_warning();
     uint8_t *msg = &data_[COMMAND_LEN_HEAD];
 
+    ESP_LOGD(TAG, "[parse_data_] cmd:%x.", data_[COMMAND_IDX_MSG_ID]);
+
     switch (data_[COMMAND_IDX_MSG_ID]) {
       case RES_GET_BOOTLOADER_VERSION:
         memcpy(bootloader_version_, msg, data_[COMMAND_IDX_DATA]);
