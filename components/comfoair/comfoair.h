@@ -112,49 +112,52 @@ public:
   }
 
   void update() override {
-    switch(update_counter_) {
-      case -4:
-        write_command_(CMD_GET_BOOTLOADER_VERSION, nullptr, 0);
-        break;
-      case -3:
-        write_command_(CMD_GET_FIRMWARE_VERSION, nullptr, 0);
-        break;
-      case -2:
-        write_command_(CMD_GET_CONNECTOR_BOARD_VERSION, nullptr, 0);
-        break;
-      case -1:
-        write_command_(CMD_GET_STATUS, nullptr, 0);
-        break;
-      case 0:
-        get_fan_status_();
-        break;
-      case 1:
-        get_valve_status_();
-        break;
-      case 2:
-        get_sensor_data_();
-        break;
-      case 3:
-        get_ventilation_level_();
-        break;
-      case 4:
-        get_temperatures_();
-        break;
-      case 5:
-        get_error_status_();
-        break;
-      case 6:
-        get_bypass_control_status_();
-        break;
-      case 7:
-        get_operation_hours_();
-        break;
-      case 8:
-        get_preheating_status_();
-        break;
-      case 9:
-        get_time_delay_();
-        break;
+    //listen only
+    if (false){
+      switch(update_counter_) {
+        case -4:
+          write_command_(CMD_GET_BOOTLOADER_VERSION, nullptr, 0);
+          break;
+        case -3:
+          write_command_(CMD_GET_FIRMWARE_VERSION, nullptr, 0);
+          break;
+        case -2:
+          write_command_(CMD_GET_CONNECTOR_BOARD_VERSION, nullptr, 0);
+          break;
+        case -1:
+          write_command_(CMD_GET_STATUS, nullptr, 0);
+          break;
+        case 0:
+          get_fan_status_();
+          break;
+        case 1:
+          get_valve_status_();
+          break;
+        case 2:
+          get_sensor_data_();
+          break;
+        case 3:
+          get_ventilation_level_();
+          break;
+        case 4:
+          get_temperatures_();
+          break;
+        case 5:
+          get_error_status_();
+          break;
+        case 6:
+          get_bypass_control_status_();
+          break;
+        case 7:
+          get_operation_hours_();
+          break;
+        case 8:
+          get_preheating_status_();
+          break;
+        case 9:
+          get_time_delay_();
+          break;
+      }
     }
 
     update_counter_++;
@@ -162,6 +165,18 @@ public:
       update_counter_ = 0;
   }
 
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * This function is executed in the main loop and processes incoming data.
+ * It continuously reads bytes from the data stream while available.
+ * Each byte is checked for validity using the check_byte_() function.
+ * If a byte is invalid, a log message is generated and the data index is reset.
+ * If the data frame is complete and valid (indicated by COMMAND_ID_ACK not being COMMAND_ACK),
+ * the parse_data_() function is called to handle the received data.
+ * The data index is reset after processing each frame.
+ */
+
+/******  c0d1daa0-4a2a-48ab-a1a8-9a618cd508cb  *******/
   void loop() override {
     while (available() != 0) {
       read_byte(&data_[data_index_]);
@@ -263,6 +278,27 @@ protected:
     return sum % 256;
   }
 
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Validates a byte in the data buffer based on its current index and 
+ * expected structure of a ComfoAir protocol message.
+ *
+ * This function checks:
+ * - The initial byte is a COMMAND_PREFIX.
+ * - The second byte is either a COMMAND_ACK or COMMAND_HEAD.
+ * - The third byte is 0x00.
+ * - Ensures the message does not exceed the predefined maximum length.
+ * - Validates the checksum at the end of the message payload.
+ * - Confirms the presence of COMMAND_PREFIX and COMMAND_TAIL at the 
+ *   expected positions following the payload.
+ *
+ * Returns:
+ * - `true` if the byte is valid or the index is within the header length.
+ * - `false` if any validation step fails.
+ * - An empty `optional` if the second byte is COMMAND_ACK.
+ */
+
+/******  9fc3d52a-6451-4675-8923-ed31712c1c0a  *******/
   optional<bool> check_byte_() const {
     uint8_t index = data_index_;
     uint8_t byte = data_[index];
